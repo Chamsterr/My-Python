@@ -1,8 +1,9 @@
-from chessdotcom import get_leaderboards, get_player_stats
+from chessdotcom import get_leaderboards, get_player_stats, get_player_game_archives
 from datetime import datetime
 
 import pprint
 import os
+import requests
 
 
 printer = pprint.PrettyPrinter()
@@ -38,8 +39,6 @@ def category_stats(category, username):
           f'      Loss: {tmp["record"]["loss"]} \n'
           f'      Win: {tmp["record"]["win"]} \n ')
 
-    # tmp = data['stats']['chess_blitz']
-
 
 def get_player_stats_by_category(username):
     var = input('Choose category (number) \n'
@@ -64,5 +63,12 @@ def get_player_stats_by_category(username):
             category_stats('tactics', username)                
 
 
+def get_most_recent_game(username):
+    data = get_player_game_archives(username).json
+    url = data['archives'][-1]
+    games = requests.get(url).json()
+    game = games['games'][-1]
+    printer.pprint(game)
 
-get_player_stats_by_category('kazikapa')
+    
+get_most_recent_game('kazikapa')
