@@ -53,4 +53,3 @@ def task_6():
     table = [dict(zip(column_names, db_row)) for db_row in db_rows]
     print(table)
 
-task_6()
