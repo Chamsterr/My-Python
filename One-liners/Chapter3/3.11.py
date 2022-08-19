@@ -9,3 +9,5 @@ softwareEngineer = [129, 131, 137]
 
 empoyees = np.array([dataScientist, productManager, designer, softwareEngineer])
 
+empoyees[0, ::2] = empoyees[0, ::2]*1.1
+print(empoyees)
