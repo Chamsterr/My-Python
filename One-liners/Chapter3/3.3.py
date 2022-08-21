@@ -15,3 +15,4 @@ max_income = salaries*(1-taxation)
 
 # most_clear_income = employees[np.nonzero(max_income == np.max(max_income))[0]]
 print(employees[np.nonzero(max_income == np.max(max_income))[0]])
+
