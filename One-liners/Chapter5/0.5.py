@@ -1,0 +1,9 @@
+import re
+print(re.findall('x{3,5}y', 'xy'))
+# []
+print(re.findall('x{3,5}y', 'xxxy'))
+# ['xxxy']
+print(re.findall('x{3,5}y', 'xxxxxy'))
+# ['xxxxxy']
+print(re.findall('x{3,5}y', 'xxxxxxy'))
+# ['xxxxxy']
