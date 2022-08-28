@@ -1,8 +1,11 @@
+## Зависимости
 import re
 
+## Данные
 text = 'if you use words too often words become used'
 
-result_test = re.search('[^\s]*', text)
+## Однострочник
+style_problems = re.search('\s(?P<x>[a-z]+)\s+([a-z]+\s+){0,10}(?P=x)\s', ' ' + text + ' ')
 
-result = re.search('(?P<x>[^\s]*)(?P=x)', text)
-print(result)
+## Результат
+print(style_problems)
