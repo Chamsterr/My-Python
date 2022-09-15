@@ -15,5 +15,9 @@ page = '''
     </html>
 '''
 
-practice_test = re.findall('(<a.*?finxter.*(test|puzzle).*?>)', page)
+practice_test = re.findall('.*?finxter.*test.*|.*puzzle.*', page)
 print(practice_test)
+
+
+# practice_test = re.findall('(<a.*?finxter.*(test|puzzle).*?>)', page)
+# print(practice_test)

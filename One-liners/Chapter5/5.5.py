@@ -15,5 +15,9 @@ http:/bla.ba.com
 http://bo.bo.bo.bo.bo.bo/
 http://bo.bo.bo.bo.bo.bo/333483--33343-/
 '''
+
+stale_links = re.findall('http://[a-z0-9_\-.]+\.[a-z0-9_\-/]+', article)
+
 result = re.findall('http://.*\.+.*', article)
 print(result)
+
