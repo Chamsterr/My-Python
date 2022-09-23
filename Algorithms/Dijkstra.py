@@ -3,7 +3,7 @@ from math import inf
 # A B C D E F G H I 
 # 0 1 2 3 4 5 6 7 8
 
-number_of_edges = 8
+number_of_edges = 9
 edges = [inf for x in range(number_of_edges)]
 distancess = [((2, 10), (1, 7)), ((0, 7), (5, 9), (6, 27)),
            ((0, 10), (5, 8), (4, 31)), ((4, 32), (7, 17), (8, 21)),
@@ -22,16 +22,20 @@ def Dijkstra(distances):
     while(0 < (pick := int(input("Choose edge: "))) > number_of_edges):
         continue
     edges[pick - 1] = 0
-
+    sorted(distances)
+    
     for distance in distances[pick - 1]:
             edges[distance[0]] = distance[1]
 
     for x in range(len(distances)):
         for distance in distances[x]:
-                edges[x] = min(distance[1] + edges[distance[0]], edges[x])
+            edges[x] = min(distance[1] + edges[distance[0]], edges[x])
 
+    for x in range(len(distances)):
+        for distance in distances[x]:
+            edges[x] = min(distance[1] + edges[distance[0]], edges[x])
     print(edges)
 
 
-Dijkstra(distances_lecture)
+Dijkstra(distancess)
 
