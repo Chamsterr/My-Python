@@ -4,23 +4,22 @@ from cgi import test
 def insert_sort(A):
     """Сортировка вставками"""
     for x in range(len(A)):
-        while x > 0 and A[x-1] > A[x]:
-            A[x-1], A[x] = A[x], A[x-1] 
-            x -= 1
+        k = x
+        while k > 0 and A[k-1] > A[k]:
+            A[k-1], A[k] = A[k], A[k-1] 
+            k -= 1
 
 
 def choose_sort(A):
     """Сортировка выбором"""
-    N = len(A)
-    for x in range(len(A)):
-        for y in range(len(A)):
-            if A[y] > A[x]:
+    for x in range(0, len(A) - 1):
+        for y in range(x+1, len(A)):
+            if A[y] < A[x]:
                 A[y], A[x] = A[x], A[y]
 
 def buble_sort(A):
     """Сортировка пузырьком"""
-    N = len(A)
-    for bypass in range(1, N):
+    for bypass in range(1, len(A)):
         for x in range(1, len(A)):
             if A[x-1] > A[x]:
                 A[x-1], A[x] = A[x], A[x-1]
