@@ -6,3 +6,8 @@ class Phone:
 phone = Phone(size=5)
 
 print(phone.__dict__)
+
+def some_func():
+    """док стринг"""
+
+print(some_func.__doc__)
