@@ -10,9 +10,9 @@ try:
     while True:
         message = input("введите сообщение: ")
         if message.lower() == "exit":
-            break
-
-        client_socket.sendall(message.encode())
+            client_socket.sendall(b"\r\n")
+        else:
+            client_socket.sendall(message.encode())
 
 finally:
     client_socket.close()
