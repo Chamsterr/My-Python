@@ -1,34 +1,48 @@
-from fastapi import FastAPI
-from dataclasses import dataclass
+from datetime import datetime
+from enum import Enum
+from typing import List, Optional, Union
 
-app = FastAPI()
+from fastapi_users import fastapi_users, FastAPIUsers
+from pydantic import BaseModel, Field
 
-@app.get("/")
-def get_hello():
-    return "hello"
+from fastapi import FastAPI, Request, status, Depends
+from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import ValidationError
+from fastapi.responses import JSONResponse
 
-list_of_smth: list[int|str] = [1, 2, 3, 4, "cat"]
+from auth.auth import auth_backend
+from auth.database import User
+from auth.manager import get_user_manager
+from auth.schemas import UserRead, UserCreate
 
-@app.get("/number/{id}")
-def get_number_with_id_in_url(id: int) -> int|str:
-    return list_of_smth[id]
+app = FastAPI(
+    title="Trading App"
+)
 
-@app.get("/number/")
-def get_number_with_parametr(id: int = 0) -> int|str:
-    return list_of_smth[id]
+fastapi_users = FastAPIUsers[User, int](
+    get_user_manager,
+    [auth_backend],
+)
 
-@dataclass
-class User:
-    id: int
-    name: str
+app.include_router(
+    fastapi_users.get_auth_router(auth_backend),
+    prefix="/auth/jwt",
+    tags=["auth"],
+)
 
-users: list[User] = [
-    User(id = 1, name ="James"),
-    User(id = 2, name="Jamal")
-]
+app.include_router(
+    fastapi_users.get_register_router(UserRead, UserCreate),
+    prefix="/auth",
+    tags=["auth"],
+)
 
-@app.patch("/change_name/{user_id}")
-def change_name_by_id(user_id: int, new_name: str):
-    user = next(user_ for user_ in users if user_.id == user_id)
-    user.name = new_name
-    return {"status": 200, "data": user}
+current_user = fastapi_users.current_user()
+
+@app.get("/protected-route")
+def protected_route(user: User = Depends(current_user)):
+    return f"Hello, {user.username}"
+
+
+@app.get("/unprotected-route")
+def unprotected_route():
+    return f"Hello, anonym"
