@@ -1,7 +1,9 @@
 from datetime import datetime
 from enum import Enum
 from typing import List, Optional, Union
-
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from redis import asyncio as aioredis
 from fastapi_users import fastapi_users, FastAPIUsers
 from pydantic import BaseModel, Field
 
@@ -49,3 +51,9 @@ def unprotected_route():
     return f"Hello, anonym"
 
 app.include_router(router_operation)
+
+
+@app.on_event("startup")
+async def startup_event():
+    redis = aioredis.from_url("redis://localhost", encoding="utf8", decode_responses=True)
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
